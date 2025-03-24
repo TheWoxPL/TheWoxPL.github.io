@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  </head>
+  <body>
+    <div class="w-100 d-flex align-items-center flex-column">
+      <header class="text-center">
+          <h1>Mapa</h1>
+      </header>
+      <div class="w-25 d-flex align-items-center flex-column">
+          <a href="/index.html">
+              <button type="button" class="btn btn-primary btn-lg">Strona główna</button>
+          </a>
+          <a href="/map.html">
+          <button type="button" class="btn btn-success btn-lg">Mapa</button>
+          <a href="/sos.html">
+              <button type="button" class="btn btn-secondary btn-lg">SoS</button>
+          </a>
+      </div>
+
+  </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      const map = L.map('mapid').setView([50.06914, 19.9547], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          L.marker([lat, lon]).addTo(map)
+            .bindPopup("Twoja lokalizacja")
+            .openPopup();
+          map.setView([lat, lon], 13);
+        });
+      }
+    </script>
+  </body>
+</html>
