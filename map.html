@@ -22,10 +22,34 @@
               <button type="button" class="btn btn-secondary btn-lg">SoS</button>
           </a>
       </div>
+      <button class="btn btn-secondary btn-lg" onclick="getLocation()">Get location</button>
 
   </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+      function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    document.getElementById('mapFrame').src = `https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.01},${latitude-0.01},${longitude+0.01},${latitude+0.01}&layer=mapnik&marker=${latitude},${longitude}`;
+                });
+            } else {
+                alert("Geolokalizacja nie jest wspierana w tej przeglądarce.");
+            }
+        }
+
+        function triggerSOS() {
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200, 100, 200, 500, 200, 500, 200, 100, 200, 100, 200]);
+            }
+            alert("SOS aktywowane!");
+        }
+
+
+
+
+
+
       const map = L.map('mapid').setView([50.06914, 19.9547], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
